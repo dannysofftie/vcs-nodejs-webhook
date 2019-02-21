@@ -1,4 +1,4 @@
-const repo = '~/root/app/platform-server';
+const repo = '../platform-server';
 
 import { exec } from 'child_process';
 import * as http from 'http';
