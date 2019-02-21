@@ -5,7 +5,7 @@ import * as http from 'http';
 
 http.createServer(function(req, res) {
     if (req.method == 'GET') {
-        res.end(JSON.stringify({ message: 'close' }));
+        res.end(JSON.stringify({ message: 'listener' }));
     }
 
     req.on('data', function(chunk) {
