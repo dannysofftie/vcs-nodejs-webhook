@@ -9,7 +9,7 @@ http.createServer(function(req, res) {
     }
 
     req.on('data', function(chunk) {
-        exec('cd ' + repo + ' && git pull && pm2 reload onesha-platform');
+        exec('cd ' + repo + ' && git pull');
     });
 
     res.end();
