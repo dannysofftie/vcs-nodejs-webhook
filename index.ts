@@ -9,9 +9,9 @@ http.createServer(function(req, res) {
     }
 
     req.on('data', function(chunk) {
+        console.log('Incoming pull payload', chunk);
         exec('cd ' + repo + ' && git pull && pm2 reload onesha-platform');
     });
-
     res.end();
 }).listen(5670, function() {
     console.log('Webhook listener running on port', 5670);
