@@ -1,23 +1,14 @@
-const secret = 'your_secret_here';
 const repo = '~/root/app/platform-server';
 
-const http = require('http');
-const crypto = require('crypto');
-const exec = require('child_process').exec;
+import { exec } from 'child_process';
+import * as http from 'http';
 
 http.createServer(function(req, res) {
     req.on('data', function(chunk) {
-        let sig =
-            'sha1=' +
-            crypto
-                .createHmac('sha1', secret)
-                .update(chunk.toString())
-                .digest('hex');
-
-        if (req.headers['x-hub-signature'] == sig) {
-            exec('cd ' + repo + ' && git pull');
-        }
+        exec('cd ' + repo + ' && git pull');
     });
 
     res.end();
-}).listen(8080);
+}).listen(5670, function() {
+    console.log('Webhook listener running on port', 5670);
+});
