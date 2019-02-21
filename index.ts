@@ -9,8 +9,13 @@ http.createServer(function(req, res) {
     }
 
     req.on('data', function(chunk) {
-        console.log('Incoming pull payload', chunk);
-        exec('cd ' + repo + ' && git pull && pm2 reload onesha-platform');
+        console.log('Incoming pull payload');
+        exec('cd ' + repo + ' && git pull && pm2 reload onesha-platform', err => {
+            if (err) {
+                console.log('Error occured ', err);
+            }
+            console.log('Pull complete');
+        });
     });
     res.end();
 }).listen(5670, function() {
