@@ -1,5 +1,10 @@
-import { spawn } from 'child_process';
+import { execFile, spawnSync } from 'child_process';
 import * as http from 'http';
+import { promisify } from 'util';
+
+const exec = promisify(execFile);
+
+const file = '/root/app/vcs-nodejs-webhook/pull-changes.sh';
 
 http.createServer(function(req, res) {
     if (req.method == 'GET') {
@@ -7,12 +12,13 @@ http.createServer(function(req, res) {
     }
 
     req.on('data', function(chunk) {
-        console.log('Incoming pull payload');
-        const pull = spawn('sh', ['./pull-changes.sh'], {
-            cwd: '/root/app/vcs-nodejs-webhook',
-        });
-        pull.on('error', err => {
-            console.log('Error ', err);
+        (async () => {
+            spawnSync('chmod 755', [file]);
+            const { stderr, stdout } = await exec(file);
+            stderr && console.log('Error ', stderr);
+            console.log(stdout);
+        })().catch(err => {
+            console.log(err);
         });
     });
 
