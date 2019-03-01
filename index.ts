@@ -4,7 +4,7 @@ import { promisify } from 'util';
 
 const exec = promisify(execFile);
 
-const file = '/root/app/vcs-nodejs-webhook/pull-changes.sh';
+const file = '/home/danny/app/vcs-nodejs-webhook/pull-changes.sh';
 
 http.createServer(function(req, res) {
     if (req.method == 'GET') {
