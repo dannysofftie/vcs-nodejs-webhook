@@ -8,7 +8,7 @@ http.createServer(function(req, res) {
 
     req.on('data', function(chunk) {
         console.log('Incoming pull payload');
-        const pull = spawn('sh', ['pull-changes.sh'], {
+        const pull = spawn('sh', ['./pull-changes.sh'], {
             cwd: '/root/app/vcs-nodejs-webhook',
         });
         pull.on('error', err => {
