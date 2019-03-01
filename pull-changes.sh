@@ -1,3 +1,3 @@
 #!/bin/sh
-cd /root/app/platform-server
+cd /home/danny/app/platform-server
 git pull
