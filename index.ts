@@ -1,6 +1,4 @@
-const repo = '/root/app/platform-server';
-
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 import * as http from 'http';
 
 http.createServer(function(req, res) {
@@ -10,13 +8,14 @@ http.createServer(function(req, res) {
 
     req.on('data', function(chunk) {
         console.log('Incoming pull payload');
-        exec('cd ' + repo + ' && git pull && pm2 reload onesha-platform', err => {
-            if (err) {
-                console.log('Error occured ', err);
-            }
-            console.log('Pull complete');
+        const pull = spawn('sh', ['pull-changes.sh'], {
+            cwd: '~/app/vcs-nodejs-webhook',
+        });
+        pull.on('error', err => {
+            console.log('Error ', err);
         });
     });
+
     res.end();
 }).listen(5670, function() {
     console.log('Webhook listener running on port', 5670);
